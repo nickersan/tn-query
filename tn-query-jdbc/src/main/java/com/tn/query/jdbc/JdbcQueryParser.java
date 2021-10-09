@@ -29,6 +29,8 @@ public class JdbcQueryParser extends AbstractQueryParser<JdbcPredicate>
   private static final String TEMPLATE_LESS_THAN = "%s < %s";
   private static final String TEMPLATE_LESS_THAN_OR_EQUAL = "%s <= %s";
   private static final String TEMPLATE_IN = "%s IN (%s)";
+  private static final String TEMPLATE_AND = "%s AND %s";
+  private static final String TEMPLATE_OR = "%s OR %s";
 
   private final Map<String, String> nameMappings;
 
@@ -126,13 +128,13 @@ public class JdbcQueryParser extends AbstractQueryParser<JdbcPredicate>
   @Override
   protected JdbcPredicate and(JdbcPredicate left, JdbcPredicate right)
   {
-    return null;
+    return new JdbcLogical(TEMPLATE_AND, left, right);
   }
 
   @Override
   protected JdbcPredicate or(JdbcPredicate left, JdbcPredicate right)
   {
-    return null;
+    return new JdbcLogical(TEMPLATE_OR, left, right);
   }
 
   private static abstract class AbstractJdbcPredicate implements JdbcPredicate
@@ -227,7 +229,7 @@ public class JdbcQueryParser extends AbstractQueryParser<JdbcPredicate>
 
     private java.sql.Date toDate(LocalDate value)
     {
-      return new java.sql.Date(Date.from(value.atStartOfDay().toInstant(ZoneOffset.UTC)).getTime());
+      return new java.sql.Date(value.atStartOfDay(this.zoneOffset).toInstant().toEpochMilli());
     }
 
     private Timestamp toTimestamp(Date value)
@@ -237,7 +239,34 @@ public class JdbcQueryParser extends AbstractQueryParser<JdbcPredicate>
 
     private Timestamp toTimestamp(LocalDateTime value)
     {
-      return new Timestamp(Date.from(value.toInstant(this.zoneOffset)).getTime());
+      return new Timestamp(value.toInstant(this.zoneOffset).toEpochMilli());
+    }
+  }
+
+  private static class JdbcLogical extends AbstractJdbcPredicate
+  {
+    private final String template;
+    private final JdbcPredicate left;
+    private final JdbcPredicate right;
+
+    public JdbcLogical(String template, JdbcPredicate left, JdbcPredicate right)
+    {
+      this.template = template;
+      this.left = left;
+      this.right = right;
+    }
+
+    @Override
+    public String toSql()
+    {
+      return format(this.template, this.left, this.right);
+    }
+
+    @Override
+    protected void setValues(PreparedStatement preparedStatement, IntSupplier index) throws SQLException
+    {
+      ((AbstractJdbcPredicate)this.left).setValues(preparedStatement, index);
+      ((AbstractJdbcPredicate)this.right).setValues(preparedStatement, index);
     }
   }
 }
