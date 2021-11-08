@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project 
+	xmlns="http://maven.apache.org/POM/4.0.0" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"
+>
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>com.tn.query</groupId>
+    <artifactId>tn-query-parent</artifactId>
+    <version>0.0.01-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>tn-query-jpa</artifactId>
+  <version>0.0.01-SNAPSHOT</version>
+
+  <packaging>jar</packaging>
+
+  <properties>
+    <spring-boot.version>2.5.6</spring-boot.version>
+  </properties>
+
+  <dependencies>
+
+    <!-- tn-query -->
+
+    <dependency>
+      <groupId>com.tn.query</groupId>
+      <artifactId>tn-query</artifactId>
+      <version>0.0.01-SNAPSHOT</version>
+    </dependency>
+
+    <!-- 3rd party -->
+
+    <dependency>
+      <groupId>com.h2database</groupId>
+      <artifactId>h2</artifactId>
+      <version>1.4.200</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>1.18.22</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>javax.persistence</groupId>
+      <artifactId>javax.persistence-api</artifactId>
+      <version>2.2</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-data-jpa</artifactId>
+      <version>${spring-boot.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <version>${spring-boot.version}</version>
+      <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>org.junit.vintage</groupId>
+          <artifactId>junit-vintage-engine</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+
+  </dependencies>
+
+ </project>

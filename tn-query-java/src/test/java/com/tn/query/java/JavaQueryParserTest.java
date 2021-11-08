@@ -651,7 +651,7 @@ class JavaQueryParserTest
   }
 
   @Test
-  void testParseShortEqual()
+  void testParseShort()
   {
     Target target = new Target();
     target.shortValue = 10;
@@ -689,7 +689,7 @@ class JavaQueryParserTest
   }
 
   @Test
-  void testParseStringEqual()
+  void testParseString()
   {
     Target target = new Target();
     target.stringValue = "BB";
