@@ -25,7 +25,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-    <junit.version>5.3.2</junit.version>
+    <junit.version>5.8.1</junit.version>
     <guava.version>27.0.1-jre</guava.version>
     <lombok.version>1.18.20</lombok.version>
     <reactor.version>3.4.5</reactor.version>
@@ -41,7 +41,7 @@
     <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>
-      <version>1.2.3</version>
+      <version>1.2.11</version>
     </dependency>
 
     <dependency>
@@ -73,7 +73,7 @@
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>jcl-over-slf4j</artifactId>
-      <version>1.7.25</version>
+      <version>1.7.32</version>
     </dependency>
 
   </dependencies>

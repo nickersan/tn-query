@@ -18,6 +18,7 @@ import java.util.function.IntSupplier;
 
 import com.tn.query.AbstractQueryParser;
 import com.tn.query.Mapper;
+import com.tn.query.QueryParseException;
 
 public class JdbcQueryParser extends AbstractQueryParser<JdbcPredicate>
 {
@@ -54,7 +55,7 @@ public class JdbcQueryParser extends AbstractQueryParser<JdbcPredicate>
     return new JdbcComparison(
       this.zoneOffset,
       TEMPLATE_EQUAL,
-      this.nameMappings.getOrDefault(left, left),
+      name(left),
       right
     );
   }
@@ -65,7 +66,7 @@ public class JdbcQueryParser extends AbstractQueryParser<JdbcPredicate>
     return new JdbcComparison(
       this.zoneOffset,
       TEMPLATE_NOT_EQUAL,
-      this.nameMappings.getOrDefault(left, left),
+      name(left),
       right
     );
   }
@@ -76,7 +77,7 @@ public class JdbcQueryParser extends AbstractQueryParser<JdbcPredicate>
     return new JdbcComparison(
       this.zoneOffset,
       TEMPLATE_GREATER_THAN,
-      this.nameMappings.getOrDefault(left, left),
+      name(left),
       right
     );
   }
@@ -87,7 +88,7 @@ public class JdbcQueryParser extends AbstractQueryParser<JdbcPredicate>
     return new JdbcComparison(
       this.zoneOffset,
       TEMPLATE_GREATER_THAN_OR_EQUAL,
-      this.nameMappings.getOrDefault(left, left),
+      name(left),
       right
     );
   }
@@ -98,7 +99,7 @@ public class JdbcQueryParser extends AbstractQueryParser<JdbcPredicate>
     return new JdbcComparison(
       this.zoneOffset,
       TEMPLATE_LESS_THAN,
-      this.nameMappings.getOrDefault(left, left),
+      name(left),
       right
     );
   }
@@ -109,7 +110,7 @@ public class JdbcQueryParser extends AbstractQueryParser<JdbcPredicate>
     return new JdbcComparison(
       this.zoneOffset,
       TEMPLATE_LESS_THAN_OR_EQUAL,
-      this.nameMappings.getOrDefault(left, left),
+      name(left),
       right
     );
   }
@@ -120,7 +121,7 @@ public class JdbcQueryParser extends AbstractQueryParser<JdbcPredicate>
     return new JdbcComparison(
       this.zoneOffset,
       TEMPLATE_IN,
-      this.nameMappings.getOrDefault(left, left),
+      name(left),
       right
     );
   }
@@ -135,6 +136,14 @@ public class JdbcQueryParser extends AbstractQueryParser<JdbcPredicate>
   protected JdbcPredicate or(JdbcPredicate left, JdbcPredicate right)
   {
     return new JdbcLogical(TEMPLATE_OR, left, right);
+  }
+
+  private String name(String left)
+  {
+    String name = this.nameMappings.get(left);
+    if (name == null) throw new QueryParseException("Unknown name: " + left);
+
+    return name;
   }
 
   private static abstract class AbstractJdbcPredicate implements JdbcPredicate
