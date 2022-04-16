@@ -969,6 +969,21 @@ class JdbcQueryParserTest
     );
   }
 
+  @Test
+  void testParseMultipleLogicalOperatorsWithParenthesis() throws Exception
+  {
+    assertPredicate(
+      this.queryParser.parse("stringValue = A && (stringValue != B || (intValue > 1 && intValue <= 10))"),
+      "string = ? AND (NOT string = ? OR (int > ? AND int <= ?))",
+      preparedStatement -> {
+        verify(preparedStatement).setObject(1, "A");
+        verify(preparedStatement).setObject(2, "B");
+        verify(preparedStatement).setInt(3, 1);
+        verify(preparedStatement).setInt(4, 10);
+      }
+    );
+  }
+
   private void assertPredicate(JdbcPredicate predicate, String expectedSql, Assertion<PreparedStatement> assertion) throws Exception
   {
     assertEquals(expectedSql, predicate.toSql());

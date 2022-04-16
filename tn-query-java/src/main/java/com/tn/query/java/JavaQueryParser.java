@@ -85,6 +85,13 @@ public class JavaQueryParser<T> extends AbstractQueryParser<Predicate<T>>
     return value -> left.test(value) || right.test(value);
   }
 
+  @Override
+  protected Predicate<T> parenthesis(Predicate<T> node)
+  {
+    //Parenthesis is handled implicitly when parsing queries.
+    return node;
+  }
+
   private <T1> int compare(T1 obj1, T1 obj2)
   {
     if (!(obj1 instanceof Comparable)) throw new QueryParseException("Cannot compare: " + obj1);

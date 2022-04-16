@@ -751,6 +751,19 @@ class JavaQueryParserTest
   }
 
   @Test
+  void testParseMultipleLogicalOperatorsWithParenthesis()
+  {
+    Target target = new Target();
+    target.booleanValue = true;
+    target.stringValue = "Testing";
+    target.intValue = 123;
+
+    assertTrue(this.queryParser.parse("booleanValue = true || (stringValue = X && intValue = 1)").test(target));
+    assertTrue(this.queryParser.parse("booleanValue = false || (stringValue = Testing && intValue = 123)").test(target));
+    assertFalse(this.queryParser.parse("booleanValue = false || (stringValue = X && intValue = 1)").test(target));
+  }
+
+  @Test
   void testParseInvalidNode()
   {
     assertThrows(QueryParseException.class, () -> new JavaQueryParser<>(emptySet(), emptySet()).predicate(mock(Node.class)));

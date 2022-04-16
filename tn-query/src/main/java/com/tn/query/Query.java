@@ -11,6 +11,7 @@ import com.tn.query.node.And;
 import com.tn.query.node.LogicalNode;
 import com.tn.query.node.Or;
 import com.tn.query.node.Node;
+import com.tn.query.node.Parenthesis;
 
 public class Query
 {
@@ -68,7 +69,7 @@ public class Query
       {
         if (isOpenParenthesis(queryPart))
         {
-          node = node(node, parse(subQueryParts(queryParts, exceptionSupplier), exceptionSupplier));
+          node = node(node, new Parenthesis(parse(subQueryParts(queryParts, exceptionSupplier), exceptionSupplier)));
         }
         else if (isAnd(queryPart))
         {

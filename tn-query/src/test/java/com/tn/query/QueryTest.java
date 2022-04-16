@@ -13,6 +13,7 @@ import com.tn.query.node.GreaterThan;
 import com.tn.query.node.LessThanOrEqual;
 import com.tn.query.node.NotEqual;
 import com.tn.query.node.Or;
+import com.tn.query.node.Parenthesis;
 
 class QueryTest
 {
@@ -61,11 +62,15 @@ class QueryTest
     assertEquals(
       new And(
         new Equal("a", "b"),
-        new Or(
-          new NotEqual("c", "d"),
-          new And(
-            new GreaterThan("e", "f"),
-            new LessThanOrEqual("g", "h")
+        new Parenthesis(
+          new Or(
+            new NotEqual("c", "d"),
+            new Parenthesis(
+              new And(
+                new GreaterThan("e", "f"),
+                new LessThanOrEqual("g", "h")
+              )
+            )
           )
         )
       ),

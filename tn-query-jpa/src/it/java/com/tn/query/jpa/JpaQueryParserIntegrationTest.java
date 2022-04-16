@@ -746,6 +746,21 @@ class JpaQueryParserIntegrationTest
     assertFindWhere("stringValue = X || intValue = 0");
   }
 
+  @Test
+  void testParseMultipleLogicalOperatorsWithParenthesis()
+  {
+    Target target = new Target();
+    target.booleanValue = true;
+    target.stringValue = "Testing";
+    target.intValue = 123;
+
+    this.targetRepository.save(target);
+
+    assertFindWhere("booleanValue = true || (stringValue = X && intValue = 1)", target);
+    assertFindWhere("booleanValue = false || (stringValue = Testing && intValue = 123)", target);
+    assertFindWhere("booleanValue = false || (stringValue = X && intValue = 1)");
+  }
+
   private void assertFindWhere(String query, Target... expected)
   {
     assertFindWhere(query, List.of(expected));

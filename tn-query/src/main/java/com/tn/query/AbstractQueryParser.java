@@ -21,6 +21,7 @@ import com.tn.query.node.LessThanOrEqual;
 import com.tn.query.node.Node;
 import com.tn.query.node.NotEqual;
 import com.tn.query.node.Or;
+import com.tn.query.node.Parenthesis;
 
 public abstract class AbstractQueryParser<T> implements QueryParser<T>
 {
@@ -44,10 +45,17 @@ public abstract class AbstractQueryParser<T> implements QueryParser<T>
 
   public T predicate(Node node)
   {
-    return predicateFactory(node).apply(
-      node.getLeft() instanceof Node ? predicate((Node)node.getLeft()) : node.getLeft(),
-      node.getRight() instanceof Node ? predicate((Node)node.getRight()) : node.getRight()
-    );
+    if (node instanceof Parenthesis)
+    {
+      return parenthesis(predicate(((Parenthesis)node).getNode()));
+    }
+    else
+    {
+      return predicateFactory(node).apply(
+        node.getLeft() instanceof Node ? predicate((Node)node.getLeft()) : node.getLeft(),
+        node.getRight() instanceof Node ? predicate((Node)node.getRight()) : node.getRight()
+      );
+    }
   }
 
   @SuppressWarnings("unchecked")
@@ -82,6 +90,8 @@ public abstract class AbstractQueryParser<T> implements QueryParser<T>
   protected abstract T and(T left, T right);
 
   protected abstract T or(T left, T right);
+
+  protected abstract T parenthesis(T node);
 
   private Object map(Object left, Object right)
   {

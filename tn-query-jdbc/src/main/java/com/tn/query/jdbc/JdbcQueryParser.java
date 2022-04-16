@@ -138,6 +138,13 @@ public class JdbcQueryParser extends AbstractQueryParser<JdbcPredicate>
     return new JdbcLogical(TEMPLATE_OR, left, right);
   }
 
+  @Override
+  protected JdbcPredicate parenthesis(JdbcPredicate predicate)
+  {
+    if (!(predicate instanceof AbstractJdbcPredicate)) throw new QueryParseException("Expected AbstractJdbcPredicate");
+    else return new JdbcParenthesis((AbstractJdbcPredicate)predicate);
+  }
+
   private String name(String left)
   {
     String name = this.nameMappings.get(left);
@@ -268,7 +275,13 @@ public class JdbcQueryParser extends AbstractQueryParser<JdbcPredicate>
     @Override
     public String toSql()
     {
-      return format(this.template, this.left, this.right);
+      return format(this.template, this.left.toSql(), this.right.toSql());
+    }
+
+    @Override
+    public String toString()
+    {
+      return format(this.template, this.left.toString(), this.right.toString());
     }
 
     @Override
@@ -276,6 +289,35 @@ public class JdbcQueryParser extends AbstractQueryParser<JdbcPredicate>
     {
       ((AbstractJdbcPredicate)this.left).setValues(preparedStatement, index);
       ((AbstractJdbcPredicate)this.right).setValues(preparedStatement, index);
+    }
+  }
+
+  private static class JdbcParenthesis extends AbstractJdbcPredicate
+  {
+    private static final String TEMPLATE_PARENTHESIS = "(%s)";
+    private final AbstractJdbcPredicate predicate;
+
+    public JdbcParenthesis(AbstractJdbcPredicate predicate)
+    {
+      this.predicate = predicate;
+    }
+
+    @Override
+    public String toSql()
+    {
+      return format(TEMPLATE_PARENTHESIS, this.predicate.toSql());
+    }
+
+    @Override
+    public String toString()
+    {
+      return format(TEMPLATE_PARENTHESIS, this.predicate.toString());
+    }
+
+    @Override
+    protected void setValues(PreparedStatement preparedStatement, IntSupplier index) throws SQLException
+    {
+      this.predicate.setValues(preparedStatement, index);
     }
   }
 }

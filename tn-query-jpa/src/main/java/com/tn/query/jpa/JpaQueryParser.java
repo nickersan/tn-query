@@ -86,6 +86,13 @@ public class JpaQueryParser extends AbstractQueryParser<Predicate>
     return this.criteriaBuilder.or(new Predicate[]{left, right});
   }
 
+  @Override
+  protected Predicate parenthesis(Predicate node)
+  {
+    //Parenthesis is handled implicitly when parsing queries.
+    return node;
+  }
+
   private <T> Expression<T> nameMapping(String left)
   {
     //noinspection unchecked
