@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AbstractQueryParser.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">tn-query</a> &gt; <a href="index.source.html" class="el_package">com.tn.query</a> &gt; <span class="el_source">AbstractQueryParser.java</span></div><h1>AbstractQueryParser.java</h1><pre class="source lang-java linenums">package com.tn.query;
+
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toMap;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.function.BiFunction;
+import java.util.function.Function;
+import java.util.stream.Stream;
+
+import com.tn.query.node.And;
+import com.tn.query.node.Equal;
+import com.tn.query.node.GreaterThan;
+import com.tn.query.node.GreaterThanOrEqual;
+import com.tn.query.node.In;
+import com.tn.query.node.LessThan;
+import com.tn.query.node.LessThanOrEqual;
+import com.tn.query.node.Node;
+import com.tn.query.node.NotEqual;
+import com.tn.query.node.Or;
+import com.tn.query.node.Parenthesis;
+
+public abstract class AbstractQueryParser&lt;T&gt; implements QueryParser&lt;T&gt;
+{
+  private static final String EMPTY = &quot;&quot;;
+  private static final String CLOSE_LIST = &quot;]&quot;;
+  private static final String OPEN_LIST = &quot;[&quot;;
+  private static final String REGX_COMMA = &quot;,&quot;;
+
+  private final Map&lt;Object, Function&lt;String, Object&gt;&gt; mappers;
+
+  protected AbstractQueryParser(Collection&lt;Mapper&gt; mappers)
+<span class="nc" id="L36">  {</span>
+<span class="nc" id="L37">    this.mappers = mappers.stream().collect(toMap(Mapper::name, mapper -&gt; mapper::map));</span>
+<span class="nc" id="L38">  }</span>
+
+  @Override
+  public final T parse(String s) throws QueryParseException
+  {
+<span class="nc" id="L43">    return predicate(Query.parse(s));</span>
+  }
+
+  public T predicate(Node node)
+  {
+<span class="nc bnc" id="L48" title="All 2 branches missed.">    if (node instanceof Parenthesis)</span>
+    {
+<span class="nc" id="L50">      return parenthesis(predicate(((Parenthesis)node).getNode()));</span>
+    }
+    else
+    {
+<span class="nc" id="L54">      return predicateFactory(node).apply(</span>
+<span class="nc bnc" id="L55" title="All 2 branches missed.">        node.getLeft() instanceof Node ? predicate((Node)node.getLeft()) : node.getLeft(),</span>
+<span class="nc bnc" id="L56" title="All 2 branches missed.">        node.getRight() instanceof Node ? predicate((Node)node.getRight()) : node.getRight()</span>
+      );
+    }
+  }
+
+  @SuppressWarnings(&quot;unchecked&quot;)
+  protected BiFunction&lt;Object, Object, T&gt; predicateFactory(Node node)
+  {
+<span class="nc bnc" id="L64" title="All 2 branches missed.">    if (node instanceof Equal) return (left, right) -&gt; equal((String)left, map(left, right));</span>
+<span class="nc bnc" id="L65" title="All 2 branches missed.">    else if (node instanceof NotEqual) return (left, right) -&gt; notEqual((String)left, map(left, right));</span>
+<span class="nc bnc" id="L66" title="All 2 branches missed.">    else if (node instanceof GreaterThan) return (left, right) -&gt; greaterThan((String)left, map(left, right));</span>
+<span class="nc bnc" id="L67" title="All 2 branches missed.">    else if (node instanceof GreaterThanOrEqual) return (left, right) -&gt; greaterThanOrEqual((String)left, map(left, right));</span>
+<span class="nc bnc" id="L68" title="All 2 branches missed.">    else if (node instanceof LessThan) return (left, right) -&gt; lessThan((String)left, map(left, right));</span>
+<span class="nc bnc" id="L69" title="All 2 branches missed.">    else if (node instanceof LessThanOrEqual) return (left, right) -&gt; lessThanOrEqual((String)left, map(left, right));</span>
+<span class="nc bnc" id="L70" title="All 2 branches missed.">    else if (node instanceof In) return (left, right) -&gt; in((String)left, mapList(left, right));</span>
+<span class="nc bnc" id="L71" title="All 2 branches missed.">    else if (node instanceof And) return (left, right) -&gt; and((T)left, (T)right);</span>
+<span class="nc bnc" id="L72" title="All 2 branches missed.">    else if (node instanceof Or) return (left, right) -&gt; or((T)left, (T)right);</span>
+<span class="nc" id="L73">    else throw new QueryParseException(&quot;Node type not handled: &quot; + node.getClass().getCanonicalName());</span>
+  }
+
+  protected abstract T equal(String left, Object right);
+
+  protected abstract T notEqual(String left, Object right);
+
+  protected abstract T greaterThan(String left, Object right);
+
+  protected abstract T greaterThanOrEqual(String left, Object right);
+
+  protected abstract T lessThan(String left, Object right);
+
+  protected abstract T lessThanOrEqual(String left, Object right);
+
+  protected abstract T in(String left, List&lt;?&gt; right);
+
+  protected abstract T and(T left, T right);
+
+  protected abstract T or(T left, T right);
+
+  protected abstract T parenthesis(T node);
+
+  private Object map(Object left, Object right)
+  {
+<span class="nc" id="L98">    return mapper(left).apply((String)right);</span>
+  }
+
+  private List&lt;?&gt; mapList(Object left, Object right)
+  {
+<span class="nc" id="L103">    return Stream.of(((String)right).replace(OPEN_LIST, EMPTY).replace(CLOSE_LIST, EMPTY).split(REGX_COMMA))</span>
+<span class="nc" id="L104">      .filter(Objects::nonNull)</span>
+<span class="nc" id="L105">      .map(item -&gt; map(left, item.trim()))</span>
+<span class="nc" id="L106">      .collect(toList());</span>
+  }
+
+  protected Function&lt;String, Object&gt; mapper(Object left)
+  {
+<span class="nc" id="L111">    Function&lt;String, Object&gt; mapper = this.mappers.get(left);</span>
+<span class="nc bnc" id="L112" title="All 2 branches missed.">    return mapper != null ? mapper : s -&gt; s;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

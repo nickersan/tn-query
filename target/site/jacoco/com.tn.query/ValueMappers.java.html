@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ValueMappers.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">tn-query</a> &gt; <a href="index.source.html" class="el_package">com.tn.query</a> &gt; <span class="el_source">ValueMappers.java</span></div><h1>ValueMappers.java</h1><pre class="source lang-java linenums">package com.tn.query;
+
+import static java.util.Collections.emptyList;
+import static java.util.Collections.emptyMap;
+import static java.util.stream.Collectors.toUnmodifiableList;
+
+import java.lang.reflect.Field;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.function.Function;
+import java.util.stream.Stream;
+
+public class ValueMappers
+{
+  private static final String JACOCO_FIELD = &quot;$jacocoData&quot;;
+
+  private ValueMappers() {}
+
+  public static List&lt;Mapper&gt; forFields(Class&lt;?&gt; subject)
+  {
+<span class="fc" id="L26">    return forFields(subject, emptyList(), emptyMap());</span>
+  }
+
+  public static List&lt;Mapper&gt; forFields(Class&lt;?&gt; subject, Collection&lt;String&gt; ignored)
+  {
+<span class="fc" id="L31">    return forFields(subject, ignored, emptyMap());</span>
+  }
+
+  public static List&lt;Mapper&gt; forFields(Class&lt;?&gt; subject, Map&lt;String, Function&lt;String, Mapper&gt;&gt; overrides)
+  {
+<span class="fc" id="L36">    return forFields(subject, emptyList(), overrides);</span>
+  }
+
+  public static List&lt;Mapper&gt; forFields(Class&lt;?&gt; subject, Collection&lt;String&gt; ignored, Map&lt;String, Function&lt;String, Mapper&gt;&gt; overrides)
+  {
+<span class="fc" id="L41">    return Stream.of(subject.getDeclaredFields())</span>
+<span class="fc bfc" id="L42" title="All 4 branches covered.">      .filter(field -&gt; !JACOCO_FIELD.equals(field.getName()) &amp;&amp; !ignored.contains(field.getName()))</span>
+<span class="fc" id="L43">      .map(toMapper(overrides))</span>
+<span class="fc" id="L44">      .filter(Objects::nonNull)</span>
+<span class="fc" id="L45">      .collect(toUnmodifiableList());</span>
+  }
+
+  private static Function&lt;Field, Mapper&gt; toMapper(Map&lt;String, Function&lt;String, Mapper&gt;&gt; overrides)
+  {
+<span class="fc" id="L50">    return field -&gt;</span>
+    {
+<span class="fc" id="L52">      Function&lt;String, Mapper&gt; mapperFactory = overrides.get(field.getName());</span>
+
+<span class="fc bfc" id="L54" title="All 2 branches covered.">      if (mapperFactory != null) return mapperFactory.apply(field.getName());</span>
+
+<span class="fc bfc" id="L56" title="All 4 branches covered.">      if (boolean.class.equals(field.getType()) || Boolean.class.equals(field.getType())) return Mapper.toBoolean(field.getName());</span>
+<span class="fc bfc" id="L57" title="All 4 branches covered.">      if (byte.class.equals(field.getType()) || Byte.class.equals(field.getType())) return Mapper.toByte(field.getName());</span>
+<span class="fc bfc" id="L58" title="All 4 branches covered.">      if (char.class.equals(field.getType()) || Character.class.equals(field.getType())) return Mapper.toChar(field.getName());</span>
+<span class="fc bfc" id="L59" title="All 4 branches covered.">      if (double.class.equals(field.getType()) || Double.class.equals(field.getType())) return Mapper.toDouble(field.getName());</span>
+<span class="fc bfc" id="L60" title="All 4 branches covered.">      if (float.class.equals(field.getType()) || Float.class.equals(field.getType())) return Mapper.toFloat(field.getName());</span>
+<span class="fc bfc" id="L61" title="All 4 branches covered.">      if (int.class.equals(field.getType()) || Integer.class.equals(field.getType())) return Mapper.toInt(field.getName());</span>
+<span class="fc bfc" id="L62" title="All 4 branches covered.">      if (long.class.equals(field.getType()) || Long.class.equals(field.getType())) return Mapper.toLong(field.getName());</span>
+<span class="fc bfc" id="L63" title="All 4 branches covered.">      if (short.class.equals(field.getType()) || Short.class.equals(field.getType())) return Mapper.toShort(field.getName());</span>
+
+<span class="fc bfc" id="L65" title="All 2 branches covered.">      if (String.class.equals(field.getType())) return Mapper.toString(field.getName());</span>
+<span class="fc bfc" id="L66" title="All 2 branches covered.">      if (Date.class.equals(field.getType())) return Mapper.toDate(field.getName());</span>
+<span class="fc bfc" id="L67" title="All 2 branches covered.">      if (LocalDate.class.equals(field.getType())) return Mapper.toLocalDate(field.getName());</span>
+<span class="pc bpc" id="L68" title="1 of 2 branches missed.">      if (LocalDateTime.class.equals(field.getType())) return Mapper.toLocalDateTime(field.getName());</span>
+
+<span class="nc" id="L70">      return null;</span>
+    };
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

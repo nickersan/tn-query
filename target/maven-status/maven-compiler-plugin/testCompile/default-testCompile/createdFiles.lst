@@ -1,0 +1,15 @@
+com\tn\query\node\LessThanTest.class
+com\tn\query\node\EqualTest.class
+com\tn\query\node\ParenthesisTest.class
+com\tn\query\node\AndTest.class
+com\tn\query\node\InTest.class
+com\tn\query\ValueMappersTest$Subject.class
+com\tn\query\MapperTest.class
+com\tn\query\node\GreaterThanTest.class
+com\tn\query\QueryTest.class
+com\tn\query\node\GreaterThanOrEqualTest.class
+com\tn\query\ComparisonOperatorTest.class
+com\tn\query\node\NotEqualTest.class
+com\tn\query\node\LessThanOrEqualTest.class
+com\tn\query\node\OrTest.class
+com\tn\query\ValueMappersTest.class
