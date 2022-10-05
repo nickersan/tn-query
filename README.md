@@ -24,7 +24,7 @@ name-to-value-type mappers are provided; these are used to parse the string valu
 
 ## Query Syntax
 
-
+TODO add example
 
 ### Logical Operators
 
