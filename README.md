@@ -49,7 +49,7 @@ For example, given a service that returns people, a predicate could take the fol
 | `∈`    | True when one value is in another; otherwise false.                            |
 
 ### Logical Operators
-| Symbol         | Description                             |
-|----------------|-----------------------------------------|
-| `&&`           | Performs a logic and on two predicates. |
-| `&#124;&#124;` | Performs a logic or on two predicates.  |
+| Symbol | Description                             |
+|--------|-----------------------------------------|
+| `&&`   | Performs a logic and on two predicates. |
+| `\|\|` | Performs a logic or on two predicates.  |
