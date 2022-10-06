@@ -15,7 +15,7 @@ name-to-value-type mappers are provided; these are used to parse the string valu
 `com.tn.query.AbstractQueryParser` requires methods that create the nodes in the resulting query tree be implemented.  For example, an implementation of 
 `com.tn.query.AbstractQueryParser` that returns Java predicates could take the form:
 
-```
+```java
   public Predicate<T> equals(String left, Object right)
   {
     return target -> Objects.equals(getFieldValueFrom(target), right);
@@ -35,7 +35,7 @@ group predicates according.
 
 For example, given a service that returns people, a predicate could take the following form:
 ```
-((firstName = John && sex = m) || (firstName = Jane && sex = f)) && lastName = Smith
+((firstName = John && sex = MALE) || (firstName = Jane && sex = FEMALE)) && lastName = Smith
 ```
 ### Comparison Operators
 | Symbol | Description                                                                    |
