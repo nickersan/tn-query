@@ -2,6 +2,20 @@
 
 TN Query provides a safe & simple predicate string.
 
+## Why?
+
+RESTful web-services often provide access to domain data, which usually needs to be filtered in some way.  TN Query makes it easy to build query strings from URL query parameters 
+and allows complex queries to be passed as a single parameter.
+
+For example, given a service that returns people, you could have the following URLs:
+```
+https://people.somedomain.com?firstName=John
+
+https://people.somedomain.com?q=firstName%3DJohn%26%26lastName%3DSmith
+```
+
+Note: when passing a complex query as a URL query parameter it must be escaped according to the usual URL escaping rules.
+
 ## Usage
 
 To use, create an instance of an implementation of `com.tn.query.QueryParser` and then simply call `QueryParser.parse(String)`.
