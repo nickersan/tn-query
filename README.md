@@ -52,4 +52,4 @@ For example, given a service that returns people, a predicate could take the fol
 | Symbol         | Description                             |
 |----------------|-----------------------------------------|
 | `&&`           | Performs a logic and on two predicates. |
-| `&vert;&vert;` | Performs a logic or on two predicates.  |
+| `&#124;&#124;` | Performs a logic or on two predicates.  |
