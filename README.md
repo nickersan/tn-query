@@ -22,12 +22,34 @@ name-to-value-type mappers are provided; these are used to parse the string valu
   }
 ```
 
+## Implementations
+
+* [tn-query-java](https://github.com/nickersan/tn-query-java#readme)
+* [tn-query-jdbc](https://github.com/nickersan/tn-query-jdbc#readme)
+* [tn-query-jpa](https://github.com/nickersan/tn-query-jpa#readme)
+
 ## Query Syntax
 
+All queries follow the typical predicate structure of `[left] [comparison operator] [right]`.  Multiple predicates can be combined with logical operators and parenthesis used to 
+group predicates according.
+
+For example, given a service that returns people, a predicate could take the following form:
+```
+((firstName = John && sex = m) || (firstName = Jane && sex = f)) && lastName = Smith
+```
+### Comparison Operators
+| Symbol | Description                                                                    |
+|--------|--------------------------------------------------------------------------------|
+| `=`    | True when one value is semantically equal to another; otherwise false.         |
+| `!=`   | True when one value is semantically **not** equal to another; otherwise false. |
+| `>`    | True when one value is greater than another; otherwise false.                  |
+| `>=`   | True when one value is greater than or equals to another; otherwise false.     |
+| `<`    | True when one value is less than another; otherwise false.                     |
+| `<=`   | True when one value is less than or equals to another; otherwise false.        |
+| `∈`    | True when one value is in another; otherwise false.                            |
+
 ### Logical Operators
-
-### Boolean Operators
-
-
-
-## Build
+| Symbol         | Description                             |
+|----------------|-----------------------------------------|
+| `&&`           | Performs a logic and on two predicates. |
+| `&vert;&vert;` | Performs a logic or on two predicates.  |
