@@ -18,13 +18,17 @@ import com.tn.query.node.GreaterThanOrEqual;
 import com.tn.query.node.In;
 import com.tn.query.node.LessThan;
 import com.tn.query.node.LessThanOrEqual;
+import com.tn.query.node.Like;
 import com.tn.query.node.Node;
 import com.tn.query.node.NotEqual;
+import com.tn.query.node.NotLike;
 import com.tn.query.node.Or;
 import com.tn.query.node.Parenthesis;
 
 public abstract class AbstractQueryParser<T> implements QueryParser<T>
 {
+  protected static final String WILDCARD = "*";
+
   private static final String EMPTY = "";
   private static final String CLOSE_LIST = "]";
   private static final String OPEN_LIST = "[";
@@ -67,6 +71,8 @@ public abstract class AbstractQueryParser<T> implements QueryParser<T>
     else if (node instanceof GreaterThanOrEqual) return (left, right) -> greaterThanOrEqual((String)left, map(left, right));
     else if (node instanceof LessThan) return (left, right) -> lessThan((String)left, map(left, right));
     else if (node instanceof LessThanOrEqual) return (left, right) -> lessThanOrEqual((String)left, map(left, right));
+    else if (node instanceof Like) return (left, right) -> like((String)left, map(left, right));
+    else if (node instanceof NotLike) return (left, right) -> notLike((String)left, map(left, right));
     else if (node instanceof In) return (left, right) -> in((String)left, mapList(left, right));
     else if (node instanceof And) return (left, right) -> and((T)left, (T)right);
     else if (node instanceof Or) return (left, right) -> or((T)left, (T)right);
@@ -84,6 +90,10 @@ public abstract class AbstractQueryParser<T> implements QueryParser<T>
   protected abstract T lessThan(String left, Object right);
 
   protected abstract T lessThanOrEqual(String left, Object right);
+
+  protected abstract T like(String left, Object right);
+
+  protected abstract T notLike(String left, Object right);
 
   protected abstract T in(String left, List<?> right);
 

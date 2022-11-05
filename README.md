@@ -52,15 +52,17 @@ For example, given a service that returns people, a predicate could take the fol
 ((firstName = John && sex = MALE) || (firstName = Jane && sex = FEMALE)) && lastName = Smith
 ```
 ### Comparison Operators
-| Symbol | Description                                                                    |
-|--------|--------------------------------------------------------------------------------|
-| `=`    | True when one value is semantically equal to another; otherwise false.         |
-| `!=`   | True when one value is semantically **not** equal to another; otherwise false. |
-| `>`    | True when one value is greater than another; otherwise false.                  |
-| `>=`   | True when one value is greater than or equals to another; otherwise false.     |
-| `<`    | True when one value is less than another; otherwise false.                     |
-| `<=`   | True when one value is less than or equals to another; otherwise false.        |
-| `∈`    | True when one value is in another; otherwise false.                            |
+| Symbol | Description                                                                                               |
+|--------|-----------------------------------------------------------------------------------------------------------|
+| `=`    | True when one value is semantically equal to another; otherwise false.                                    |
+| `!=`   | True when one value is semantically **not** equal to another; otherwise false.                            |
+| `≈`    | True when one value is a string and like another string using `*` as a wildcard; otherwise false.         |
+| `!≈`   | True when one value is a string and **not** like another string using `*` as a wildcard; otherwise false. |
+| `>`    | True when one value is greater than another; otherwise false.                                             |
+| `>=`   | True when one value is greater than or equals to another; otherwise false.                                |
+| `<`    | True when one value is less than another; otherwise false.                                                |
+| `<=`   | True when one value is less than or equals to another; otherwise false.                                   |
+| `∈`    | True when one value is in another; otherwise false.                                                       |
 
 ### Logical Operators
 | Symbol | Description                             |
