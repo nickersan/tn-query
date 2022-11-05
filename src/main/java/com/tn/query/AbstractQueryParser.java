@@ -103,6 +103,11 @@ public abstract class AbstractQueryParser<T> implements QueryParser<T>
 
   protected abstract T parenthesis(T node);
 
+  protected void checkLikeable(Object value)
+  {
+    if (!(value instanceof String)) throw new QueryException("Like comparisons only work for string values, received: " + value);
+  }
+
   private Object map(Object left, Object right)
   {
     return mapper(left).apply((String)right);
