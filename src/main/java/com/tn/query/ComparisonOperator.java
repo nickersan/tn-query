@@ -12,7 +12,9 @@ import com.tn.query.node.GreaterThanOrEqual;
 import com.tn.query.node.In;
 import com.tn.query.node.LessThan;
 import com.tn.query.node.LessThanOrEqual;
+import com.tn.query.node.Like;
 import com.tn.query.node.NotEqual;
+import com.tn.query.node.NotLike;
 
 public enum ComparisonOperator
 {
@@ -52,6 +54,18 @@ public enum ComparisonOperator
     LessThanOrEqual::new
   ),
 
+  LIKE(
+    "≈",
+    ComparisonOperator::matchesLike,
+    Like::new
+  ),
+
+  NOT_LIKE(
+    "!≈",
+    ComparisonOperator::matchesNotLike,
+    NotLike::new
+  ),
+
   IN(
     "∈",
     ComparisonOperator::matchesIn,
@@ -67,6 +81,8 @@ public enum ComparisonOperator
   private static final String REGEX_GREATER_THAN_OR_EQUAL = "^.+\\s*>=\\s*.+$";
   private static final String REGEX_LESS_THAN = "^.+\\s*<\\s*.+$";
   private static final String REGEX_LESS_THAN_OR_EQUAL = "^.+\\s*<=\\s*.+$";
+  private static final String REGEX_LIKE = "^.+\\s*≈\\s*.+$";
+  private static final String REGEX_NOT_LIKE = "^.+\\s*!≈\\s*.+$";
   private static final String REGEX_IN = "^.+\\s*∈\\s*.+$";
 
   private final BiFunction<Object, Object, ComparisonNode> nodeFactory;
@@ -138,6 +154,16 @@ public enum ComparisonOperator
   private static boolean matchesLessThanOrEqual(String queryPart)
   {
     return queryPart.matches(REGEX_LESS_THAN_OR_EQUAL);
+  }
+
+  private static boolean matchesLike(String queryPart)
+  {
+    return queryPart.matches(REGEX_LIKE) && !matchesNotLike(queryPart);
+  }
+
+  private static boolean matchesNotLike(String queryPart)
+  {
+    return queryPart.matches(REGEX_NOT_LIKE);
   }
 
   private static boolean matchesIn(String queryPart)

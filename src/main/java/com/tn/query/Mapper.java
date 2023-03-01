@@ -17,7 +17,6 @@ public class Mapper extends Named
   private static final int MAX_DATE_LENGTH = 10;
 
   private static final String QUOTE_SINGLE = "'";
-
   private static final String QUOTE_DOUBLE = "\"";
   private static final char TIME_SEPARATOR = ':';
   private static final char MILLI_SEPARATOR = '.';
@@ -79,6 +78,11 @@ public class Mapper extends Named
   public static Mapper toDouble(String name)
   {
     return new Mapper(name, double.class.getCanonicalName(), Double::parseDouble);
+  }
+
+  public static Mapper toEnum(String name, Class<? extends Enum<?>> enumType)
+  {
+    return new Mapper(name, enumType.getCanonicalName(), s -> parseEnum(enumType, s));
   }
 
   public static Mapper toFloat(String name)
@@ -154,6 +158,19 @@ public class Mapper extends Named
     {
       throw new QueryParseException("Invalid date: " + s, e);
     }
+  }
+
+  private static Enum<?> parseEnum(Class<? extends Enum<?>> enumType, String s)
+  {
+    for (Enum<?> enumValue : enumType.getEnumConstants())
+    {
+      if (enumValue.toString().equals(s))
+      {
+        return enumValue;
+      }
+    }
+
+    throw new QueryParseException("Unable to parse enum: " + enumType.getCanonicalName() + ", value: " + s);
   }
 
   private static Date parseDateTime(String s)

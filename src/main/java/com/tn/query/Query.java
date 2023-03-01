@@ -9,21 +9,22 @@ import javax.annotation.Nonnull;
 
 import com.tn.query.node.And;
 import com.tn.query.node.LogicalNode;
-import com.tn.query.node.Or;
 import com.tn.query.node.Node;
+import com.tn.query.node.Or;
 import com.tn.query.node.Parenthesis;
 
 public class Query
 {
+  public static final String AND = "&&";
+  public static final String OR = "||";
+  public static final String PARENTHESIS_CLOSE = ")";
+  public static final String PARENTHESIS_OPEN = "(";
+
   private static final String REGEX_SPLIT_AND = "((?<=(&&))|(?=(&&)))";
   private static final String REGEX_SPLIT_OR = "((?<=(\\|\\|))|(?=(\\|\\|)))";
   private static final String REGEX_SPLIT_PARENTHESIS_OPEN = "((?<=\\()|(?=\\())";
   private static final String REGEX_SPLIT_PARENTHESIS_CLOSE = "((?<=\\))|(?=\\)))";
   private static final String REGEX_LOGICAL_SPLIT = join("|", REGEX_SPLIT_AND, REGEX_SPLIT_OR, REGEX_SPLIT_PARENTHESIS_OPEN, REGEX_SPLIT_PARENTHESIS_CLOSE);
-  private static final String VALUE_AND = "&&";
-  private static final String VALUE_OR = "||";
-  private static final String VALUE_CLOSE_PARENTHESIS = ")";
-  private static final String VALUE_OPEN_PARENTHESIS = "(";
 
   private Query() {}
 
@@ -39,22 +40,22 @@ public class Query
 
   private static boolean isAnd(String queryPart)
   {
-    return VALUE_AND.equals(queryPart.trim());
+    return AND.equals(queryPart.trim());
   }
 
   private static boolean isOr(String queryPart)
   {
-    return VALUE_OR.equals(queryPart.trim());
+    return OR.equals(queryPart.trim());
   }
 
   private static boolean isCloseParenthesis(String queryPart)
   {
-    return VALUE_CLOSE_PARENTHESIS.equals(queryPart.trim());
+    return PARENTHESIS_CLOSE.equals(queryPart.trim());
   }
 
   private static boolean isOpenParenthesis(String queryPart)
   {
-    return VALUE_OPEN_PARENTHESIS.equals(queryPart.trim());
+    return PARENTHESIS_OPEN.equals(queryPart.trim());
   }
 
   private static Node parse(List<String> queryParts, Supplier<QueryParseException> exceptionSupplier) throws QueryParseException

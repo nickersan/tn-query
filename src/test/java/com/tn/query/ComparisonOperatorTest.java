@@ -10,7 +10,9 @@ import static com.tn.query.ComparisonOperator.GREATER_THAN_OR_EQUAL;
 import static com.tn.query.ComparisonOperator.IN;
 import static com.tn.query.ComparisonOperator.LESS_THAN;
 import static com.tn.query.ComparisonOperator.LESS_THAN_OR_EQUAL;
+import static com.tn.query.ComparisonOperator.LIKE;
 import static com.tn.query.ComparisonOperator.NOT_EQUAL;
+import static com.tn.query.ComparisonOperator.NOT_LIKE;
 
 import java.util.stream.Stream;
 
@@ -23,7 +25,9 @@ import com.tn.query.node.GreaterThanOrEqual;
 import com.tn.query.node.In;
 import com.tn.query.node.LessThan;
 import com.tn.query.node.LessThanOrEqual;
+import com.tn.query.node.Like;
 import com.tn.query.node.NotEqual;
+import com.tn.query.node.NotLike;
 
 class ComparisonOperatorTest
 {
@@ -79,6 +83,24 @@ class ComparisonOperatorTest
 
     assertMatches(LESS_THAN_OR_EQUAL, query);
     assertParse(new LessThanOrEqual("left", "right"), query);
+  }
+
+  @Test
+  void testMatchAndParseLike()
+  {
+    String query = "left ≈ right";
+
+    assertMatches(LIKE, query);
+    assertParse(new Like("left", "right"), query);
+  }
+
+  @Test
+  void testMatchAndParseNotLike()
+  {
+    String query = "left !≈ right";
+
+    assertMatches(NOT_LIKE, query);
+    assertParse(new NotLike("left", "right"), query);
   }
 
   @Test

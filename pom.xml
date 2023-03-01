@@ -9,13 +9,14 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>com.tn.query</groupId>
-    <artifactId>tn-query-parent</artifactId>
+    <groupId>com.tn</groupId>
+    <artifactId>tn-parent</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
 
+  <groupId>com.tn.query</groupId>
   <artifactId>tn-query</artifactId>
-  <version>0.0.01-SNAPSHOT</version>
+  <version>0.0.1-SNAPSHOT</version>
 
   <packaging>jar</packaging>
 
@@ -34,5 +35,22 @@
     </dependency>
 
   </dependencies>
+
+  <repositories>
+
+    <repository>
+      <id>github</id>
+      <url>https://maven.pkg.github.com/nickersan/maven-repository</url>
+      <releases>
+        <enabled>true</enabled>
+        <updatePolicy>always</updatePolicy>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+        <updatePolicy>never</updatePolicy>
+      </snapshots>
+    </repository>
+
+  </repositories>
 
  </project>

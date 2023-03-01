@@ -1,5 +1,6 @@
 package com.tn.query;
 
+import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.LocalDate;
@@ -47,6 +48,18 @@ class MapperTest
   }
 
   @Test
+  void testToEnum()
+  {
+    assertEquals(Result.SUCCESS, Mapper.toEnum("test", Result.class).map("SUCCESS"));
+  }
+
+  @Test
+  void testToEnumWithInvalidValue()
+  {
+    assertThrows(QueryException.class, () -> Mapper.toEnum("test", Result.class).map("UNKNOWN"));
+  }
+
+  @Test
   void testToFloat()
   {
     assertEquals(12.34F, Mapper.toFloat("test").map("12.34"));
@@ -91,5 +104,11 @@ class MapperTest
     assertEquals("test", Mapper.toString("test").map("'test'"));
     assertEquals("test", Mapper.toString("test").map("\"test\""));
     assertEquals("test's", Mapper.toString("test").map("\"test's\""));
+  }
+
+  private enum Result
+  {
+    SUCCESS,
+    FAILURE
   }
 }
