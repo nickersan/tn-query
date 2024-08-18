@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.google.common.testing.EqualsTester;
 import org.junit.jupiter.api.Test;
+
 class ParenthesisTest
 {
   @Test

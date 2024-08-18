@@ -35,7 +35,7 @@ public class Query
 
   private static boolean isNotEmpty(String s)
   {
-    return s.trim().length() != 0;
+    return !s.trim().isEmpty();
   }
 
   private static boolean isAnd(String queryPart)

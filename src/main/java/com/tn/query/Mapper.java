@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Objects;
 import java.util.function.Function;
+import javax.annotation.Nonnull;
 
 public class Mapper extends Named
 {
@@ -44,17 +45,17 @@ public class Mapper extends Named
     }
   }
 
-  public static Mapper toBoolean(String name)
+  public static Mapper toBoolean(@Nonnull String name)
   {
     return new Mapper(name, boolean.class.getCanonicalName(), Boolean::parseBoolean);
   }
 
-  public static Mapper toByte(String name)
+  public static Mapper toByte(@Nonnull String name)
   {
     return new Mapper(name, byte.class.getCanonicalName(), Byte::parseByte);
   }
 
-  public static Mapper toChar(String name)
+  public static Mapper toChar(@Nonnull String name)
   {
     return new Mapper(
       name,
@@ -66,7 +67,7 @@ public class Mapper extends Named
     );
   }
 
-  public static Mapper toDate(String name)
+  public static Mapper toDate(@Nonnull String name)
   {
     return new Mapper(
       name,
@@ -75,47 +76,47 @@ public class Mapper extends Named
     );
   }
 
-  public static Mapper toDouble(String name)
+  public static Mapper toDouble(@Nonnull String name)
   {
     return new Mapper(name, double.class.getCanonicalName(), Double::parseDouble);
   }
 
-  public static Mapper toEnum(String name, Class<? extends Enum<?>> enumType)
+  public static Mapper toEnum(@Nonnull String name, Class<? extends Enum<?>> enumType)
   {
     return new Mapper(name, enumType.getCanonicalName(), s -> parseEnum(enumType, s));
   }
 
-  public static Mapper toFloat(String name)
+  public static Mapper toFloat(@Nonnull String name)
   {
     return new Mapper(name, float.class.getCanonicalName(), Float::parseFloat);
   }
 
-  public static Mapper toInt(String name)
+  public static Mapper toInt(@Nonnull String name)
   {
     return new Mapper(name, int.class.getCanonicalName(), Integer::parseInt);
   }
 
-  public static Mapper toLocalDate(String name)
+  public static Mapper toLocalDate(@Nonnull String name)
   {
     return new Mapper(name, LocalDate.class.getCanonicalName(), LocalDate::parse);
   }
 
-  public static Mapper toLocalDateTime(String name)
+  public static Mapper toLocalDateTime(@Nonnull String name)
   {
     return new Mapper(name, LocalDateTime.class.getCanonicalName(), LocalDateTime::parse);
   }
 
-  public static Mapper toLong(String name)
+  public static Mapper toLong(@Nonnull String name)
   {
     return new Mapper(name, long.class.getCanonicalName(), Long::parseLong);
   }
 
-  public static Mapper toShort(String name)
+  public static Mapper toShort(@Nonnull String name)
   {
     return new Mapper(name, short.class.getCanonicalName(), Short::parseShort);
   }
 
-  public static Mapper toString(String name)
+  public static Mapper toString(@Nonnull String name)
   {
     return new Mapper(name, String.class.getCanonicalName(), Mapper::parseString);
   }

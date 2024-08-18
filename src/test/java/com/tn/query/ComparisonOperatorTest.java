@@ -32,7 +32,7 @@ import com.tn.query.node.NotLike;
 class ComparisonOperatorTest
 {
   @Test
-  void testMatchAndParseEqual()
+  void shouldMatchAndParseEqual()
   {
     String query = "left = right";
 
@@ -41,7 +41,7 @@ class ComparisonOperatorTest
   }
 
   @Test
-  void testMatchAndParseNotEqual()
+  void shouldMatchAndParseNotEqual()
   {
     String query = "left != right";
 
@@ -50,7 +50,7 @@ class ComparisonOperatorTest
   }
 
   @Test
-  void testMatchAndParseGreaterThan()
+  void shouldMatchAndParseGreaterThan()
   {
     String query = "left > right";
 
@@ -59,7 +59,7 @@ class ComparisonOperatorTest
   }
 
   @Test
-  void testMatchAndParseGreaterOrEqualThan()
+  void shouldMatchAndParseGreaterOrEqualThan()
   {
     String query = "left >= right";
 
@@ -68,7 +68,7 @@ class ComparisonOperatorTest
   }
 
   @Test
-  void testMatchAndParseLessThan()
+  void shouldMatchAndParseLessThan()
   {
     String query = "left < right";
 
@@ -77,7 +77,7 @@ class ComparisonOperatorTest
   }
 
   @Test
-  void testMatchAndParseLessOrEqualThan()
+  void shouldMatchAndParseLessOrEqualThan()
   {
     String query = "left <= right";
 
@@ -86,7 +86,7 @@ class ComparisonOperatorTest
   }
 
   @Test
-  void testMatchAndParseLike()
+  void shouldMatchAndParseLike()
   {
     String query = "left ≈ right";
 
@@ -95,7 +95,7 @@ class ComparisonOperatorTest
   }
 
   @Test
-  void testMatchAndParseNotLike()
+  void shouldMatchAndParseNotLike()
   {
     String query = "left !≈ right";
 
@@ -104,7 +104,7 @@ class ComparisonOperatorTest
   }
 
   @Test
-  void testMatchAndParseIn()
+  void shouldMatchAndParseIn()
   {
     String query = "left ∈ right";
 

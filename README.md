@@ -4,7 +4,7 @@ TN Query provides a safe & simple predicate string.
 
 ## Why?
 
-RESTful web-services often provide access to domain data, which usually needs to be filtered in some way.  TN Query makes it easy to build query strings from URL query parameters 
+RESTful web-services often provide access to domain data, which usually needs to be filtered in some way.  TN Query makes it easy to build predicates from URL query parameters 
 and allows complex queries to be passed as a single parameter.
 
 For example, given a service that returns people, you could have the following URLs:
@@ -18,21 +18,21 @@ Note: when passing a complex query as a URL query parameter it must be escaped a
 
 ## Usage
 
-To use, create an instance of an implementation of `com.tn.query.QueryParser` and then simply call `QueryParser.parse(String)`.
+To use, create an instance of `com.tn.query.DefaultQueryParser` passing the required implementation of `com.tn.query.PredicateFactory` and then simply call 
+`QueryParser.parse(String)`, which returns a predicate.
 
-There are various implementations of `com.tn.query.QueryParser` including Java, JDBC and JPA - see each for the particulars of create their implementations of 
-`com.tn.query.QueryParser`.
+There are various implementations of `com.tn.query.PredicateFactory` including Java, JDBC and JPA - see each for further information regarding their implementation.
 
-To create a custom implementation of `com.tn.query.QueryParser`, it is recommended `com.tn.query.AbstractQueryParser` be extended.  The typical pattern is that variable 
-name-to-value-type mappers are provided; these are used to parse the string values from the query into actual values that can be evaluated when a query is executed.
+To create a custom implementation of `com.tn.query.PredicateFactory`, the typical pattern is that variable name-to-value-type mappers are provided; these are used to parse the 
+string values from the query into actual values that can be evaluated when a query is executed.
 
-`com.tn.query.AbstractQueryParser` requires methods that create the nodes in the resulting query tree be implemented.  For example, an implementation of 
-`com.tn.query.AbstractQueryParser` that returns Java predicates could take the form:
+`com.tn.query.PredicateFactory` requires methods that create the nodes in the resulting query tree be implemented.  For example, an implementation of 
+`com.tn.query.PredicateFactory` that returns Java predicates could take the form:
 
 ```java
   public Predicate<T> equals(String left, Object right)
   {
-    return target -> Objects.equals(getFieldValueFrom(target), right);
+    return target -> Objects.equals(getFieldValueFrom(target, left), right);
   }
 ```
 
@@ -52,20 +52,27 @@ For example, given a service that returns people, a predicate could take the fol
 ((firstName = John && sex = MALE) || (firstName = Jane && sex = FEMALE)) && lastName = Smith
 ```
 ### Comparison Operators
-| Symbol | Description                                                                                               |
-|--------|-----------------------------------------------------------------------------------------------------------|
-| `=`    | True when one value is semantically equal to another; otherwise false.                                    |
-| `!=`   | True when one value is semantically **not** equal to another; otherwise false.                            |
-| `≈`    | True when one value is a string and like another string using `*` as a wildcard; otherwise false.         |
-| `!≈`   | True when one value is a string and **not** like another string using `*` as a wildcard; otherwise false. |
-| `>`    | True when one value is greater than another; otherwise false.                                             |
-| `>=`   | True when one value is greater than or equals to another; otherwise false.                                |
-| `<`    | True when one value is less than another; otherwise false.                                                |
-| `<=`   | True when one value is less than or equals to another; otherwise false.                                   |
-| `∈`    | True when one value is in another; otherwise false.                                                       |
+| Symbol | Description                                                                                                                             |
+|--------|-----------------------------------------------------------------------------------------------------------------------------------------|
+| `=`    | True when one value is semantically equal to another; otherwise false.                                                                  |
+| `!=`   | True when one value is semantically **not** equal to another; otherwise false.                                                          |
+| `≈`    | True when one value is a string and like another string using `*` as a wildcard; otherwise false.                                       |
+| `!≈`   | True when one value is a string and **not** like another string using `*` as a wildcard; otherwise false.                               |
+| `>`    | True when one value is greater than another; otherwise false.                                                                           |
+| `>=`   | True when one value is greater than or equals to another; otherwise false.                                                              |
+| `<`    | True when one value is less than another; otherwise false.                                                                              |
+| `<=`   | True when one value is less than or equals to another; otherwise false.                                                                 |
+| `∈`    | True when one value is in another; otherwise false.  The set of values should be specified within parenthesis, for example `(1, 2, 3)`. |
 
 ### Logical Operators
 | Symbol | Description                             |
 |--------|-----------------------------------------|
 | `&&`   | Performs a logic and on two predicates. |
 | `\|\|` | Performs a logic or on two predicates.  |
+
+## Build
+
+Typically, the command `mvn clean install` is used, which builds and packages, runs unit and integration tests and installs the artifacts into the local
+[Maven](https://maven.apache.org/) repository.
+
+See [tn-parent](..\tn-parent\README.md) for more details regarding the build.

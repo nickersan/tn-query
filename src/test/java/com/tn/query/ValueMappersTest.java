@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test;
 class ValueMappersTest
 {
   @Test
-  void testForFields()
+  void shouldGetFieldsFromClass()
   {
     assertEquals(
       List.of(
@@ -46,7 +46,7 @@ class ValueMappersTest
   }
 
   @Test
-  void testForFieldsWithIgnored()
+  void shouldGetFieldsFromClassExcludingIgnored()
   {
     assertEquals(
       List.of(
@@ -75,7 +75,7 @@ class ValueMappersTest
   }
 
   @Test
-  void testForFieldsWithOverride()
+  void shouldGetFieldsFromClassWithOverride()
   {
     Mapper mapper = mock(Mapper.class);
 
@@ -111,7 +111,7 @@ class ValueMappersTest
   }
 
   @Test
-  void testForFieldsWithIgnoreAndOverride()
+  void shouldGetFieldsFromClassExcludingIgnoredWithOverride()
   {
     Mapper mapper = mock(Mapper.class);
 

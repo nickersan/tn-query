@@ -2,7 +2,6 @@ package com.tn.query;
 
 import static java.util.Collections.emptyList;
 import static java.util.Collections.emptyMap;
-import static java.util.stream.Collectors.toUnmodifiableList;
 
 import java.lang.reflect.Field;
 import java.time.LocalDate;
@@ -17,8 +16,6 @@ import java.util.stream.Stream;
 
 public class ValueMappers
 {
-  private static final String JACOCO_FIELD = "$jacocoData";
-
   private ValueMappers() {}
 
   public static List<Mapper> forFields(Class<?> subject)
@@ -39,10 +36,10 @@ public class ValueMappers
   public static List<Mapper> forFields(Class<?> subject, Collection<String> ignored, Map<String, Function<String, Mapper>> overrides)
   {
     return Stream.of(subject.getDeclaredFields())
-      .filter(field -> !JACOCO_FIELD.equals(field.getName()) && !ignored.contains(field.getName()))
+      .filter(field -> !ignored.contains(field.getName()) && !field.isSynthetic())
       .map(toMapper(overrides))
       .filter(Objects::nonNull)
-      .collect(toUnmodifiableList());
+      .toList();
   }
 
   private static Function<Field, Mapper> toMapper(Map<String, Function<String, Mapper>> overrides)
