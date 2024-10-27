@@ -23,7 +23,7 @@ class MapperTest
   {
     assertEquals(Boolean.TRUE, Mapper.toBoolean("test").map("true"));
     assertEquals(Boolean.FALSE, Mapper.toBoolean("test").map("false"));
-    assertEquals(Boolean.FALSE, Mapper.toBoolean("test").map(null));
+    assertNull(Mapper.toBoolean("test").map(null));
     assertEquals(Boolean.FALSE, Mapper.toBoolean("test").map("X"));
   }
 

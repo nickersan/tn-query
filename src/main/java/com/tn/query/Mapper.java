@@ -16,7 +16,6 @@ public class Mapper extends Named
   private static final SimpleDateFormat DATE_TIME_SECONDS_FORMAT = new SimpleDateFormat("yyyy-M-d'T'H:m:s");
   private static final SimpleDateFormat DATE_TIME_MILLISECONDS_FORMAT = new SimpleDateFormat("yyyy-M-d'T'H:m:s.S");
   private static final int MAX_DATE_LENGTH = 10;
-
   private static final String QUOTE_SINGLE = "'";
   private static final String QUOTE_DOUBLE = "\"";
   private static final char TIME_SEPARATOR = ':';
@@ -37,7 +36,7 @@ public class Mapper extends Named
   {
     try
     {
-      return this.map.apply(object);
+      return object != null ? this.map.apply(object) : null;
     }
     catch (Exception e)
     {
