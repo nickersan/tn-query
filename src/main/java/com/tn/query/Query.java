@@ -5,7 +5,8 @@ import static java.lang.String.join;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
-import javax.annotation.Nonnull;
+
+import jakarta.annotation.Nonnull;
 
 import com.tn.query.node.And;
 import com.tn.query.node.LogicalNode;

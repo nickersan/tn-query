@@ -7,7 +7,8 @@ import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Objects;
 import java.util.function.Function;
-import javax.annotation.Nonnull;
+
+import jakarta.annotation.Nonnull;
 
 public class Mapper extends Named
 {

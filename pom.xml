@@ -30,6 +30,11 @@
       <artifactId>guava-testlib</artifactId>
     </dependency>
 
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava-testlib</artifactId>
+    </dependency>
+
   </dependencies>
 
  </project>
