@@ -3,7 +3,8 @@ package com.tn.query;
 import java.util.function.BiFunction;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
-import javax.annotation.Nonnull;
+
+import jakarta.annotation.Nonnull;
 
 import com.tn.query.node.ComparisonNode;
 import com.tn.query.node.Equal;

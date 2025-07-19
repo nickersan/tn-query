@@ -18,7 +18,7 @@ import com.tn.query.node.Parenthesis;
 class QueryTest
 {
   @Test
-  void testParse()
+  void shouldParse()
   {
     assertEquals(
       new Equal("a", "b"),
@@ -27,7 +27,7 @@ class QueryTest
   }
 
   @Test
-  void testParseAnd()
+  void shouldParseAnd()
   {
     assertEquals(
       new And(
@@ -39,7 +39,7 @@ class QueryTest
   }
 
   @Test
-  void testParseMultipleLogicalOperators()
+  void shouldParseMultipleLogicalOperators()
   {
     assertEquals(
       new And(
@@ -57,7 +57,7 @@ class QueryTest
   }
 
   @Test
-  void testParseMultipleLogicalOperatorsWithParenthesis()
+  void shouldParseMultipleLogicalOperatorsWithParenthesis()
   {
     assertEquals(
       new And(
@@ -79,21 +79,21 @@ class QueryTest
   }
 
   @Test
-  void testParseEmpty()
+  void shouldThrowWhenParsingEmpty()
   {
     assertThrows(QueryParseException.class, () -> parse(""));
     assertThrows(QueryParseException.class, () -> parse(" "));
   }
 
   @Test
-  void testParseInvalid()
+  void shouldThrowWhenParsingInvalid()
   {
     assertThrows(QueryParseException.class, () -> parse("INVALID"));
     assertThrows(QueryParseException.class, () -> parse("a = b c = d"));
   }
 
   @Test
-  void testParseInvalidAnd()
+  void shouldThrowWhenParsingInvalidAnd()
   {
     assertThrows(QueryParseException.class, () -> parse("&& a = b"));
     assertThrows(QueryParseException.class, () -> parse("a && a = b"));
@@ -102,7 +102,7 @@ class QueryTest
   }
 
   @Test
-  void testParseInvalidOr()
+  void shouldThrowWhenParsingInvalidOr()
   {
     assertThrows(QueryParseException.class, () -> parse("|| a = b"));
     assertThrows(QueryParseException.class, () -> parse("a || a = b"));
@@ -111,7 +111,7 @@ class QueryTest
   }
 
   @Test
-  void testParseInvalidParenthesis()
+  void shouldThrowWhenParsingInvalidParenthesis()
   {
     assertThrows(QueryParseException.class, () -> parse("()"));
     assertThrows(QueryParseException.class, () -> parse("("));
